@@ -15,7 +15,33 @@ window.onload = function () {
 
   game.state.start('boot');
 };
-},{"./states/boot":2,"./states/gameover":3,"./states/menu":4,"./states/play":5,"./states/preload":6}],2:[function(require,module,exports){
+},{"./states/boot":3,"./states/gameover":4,"./states/menu":5,"./states/play":6,"./states/preload":7}],2:[function(require,module,exports){
+'use strict';
+
+var Dude = function(game, x, y, frame) {
+	// Super call to Phaser.Sprite
+	Phaser.Sprite.call(this, game, x, y, 'dude', frame);
+
+	// Set the sprite's anchor point
+	this.anchor.setTo(0.5, 0.5);
+
+	// Add physics body to sprite
+	this.game.physics.arcade.enableBody(this);
+  
+};
+
+Dude.prototype = Object.create(Phaser.Sprite.prototype);
+Dude.prototype.constructor = Dude;
+
+Dude.prototype.update = function() {
+  
+	// write your prefab's specific update code here
+  
+};
+
+module.exports = Dude;
+
+},{}],3:[function(require,module,exports){
 
 'use strict';
 
@@ -34,7 +60,7 @@ Boot.prototype = {
 
 module.exports = Boot;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 
 'use strict';
 function GameOver() {}
@@ -62,7 +88,7 @@ GameOver.prototype = {
 };
 module.exports = GameOver;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 
 'use strict';
 function Menu() {}
@@ -126,9 +152,11 @@ Menu.prototype = {
 
 module.exports = Menu;
 
-},{}],5:[function(require,module,exports){
-
+},{}],6:[function(require,module,exports){
   'use strict';
+
+  var Dude = require('../prefabs/dude');
+
   function Play() {}
   Play.prototype = {
     create: function() {
@@ -138,6 +166,11 @@ module.exports = Menu;
 
       // Add background sprite (don't have one yet. Just color)
       // this.background = this.game.add.sprite(0, 0, 'background');
+
+      // Create new dude object
+      this.dude = new Dude(this.game, 30, this.game.height / 2)
+      // Add the new dude object to the game
+      this.game.add.existing(this.dude)
       
     },
     update: function() {
@@ -147,7 +180,7 @@ module.exports = Menu;
   };
   
   module.exports = Play;
-},{}],6:[function(require,module,exports){
+},{"../prefabs/dude":2}],7:[function(require,module,exports){
 'use strict';
 
 function Preload() {
