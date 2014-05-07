@@ -18,7 +18,10 @@
       // Create new dude object
       this.dude = new Dude(this.game, 30, this.game.height / 2)
       // Add the new dude object to the game
-      this.game.add.existing(this.dude)
+      this.game.add.existing(this.dude);
+
+      // Create and add group to hold stars
+      this.stars = this.game.add.group();
 
       // Create and add wall objects to the game
       this.ground = new Wall(this.game, 0, this.game.height - 30, 480, 112);
@@ -43,8 +46,14 @@
     },
 
     update: function() {
+      // Enable collisions between dude and walls
       this.game.physics.arcade.collide(this.dude, this.ground);
       this.game.physics.arcade.collide(this.dude, this.ceiling);
+
+      // Enable collisions between dude and stars in the stars group
+      this.stars.forEach(function(star){
+        this.game.physics.arcade.collide(this.dude, star, this.deathHandler, null, this);
+      }, this);
     },
 
     generateStar: function() {
@@ -59,9 +68,14 @@
       }
 
       this.star = new Star(this.game, this.game.width + 10, starPosition, this);
-      this.game.add.existing(this.star)
+      this.stars.add(this.star);
+      // this.game.add.existing(this.star)
 
-    }
+    },
+
+    deathHandler: function() {
+      this.game.state.start('gameover');
+    },
   };
   
   module.exports = Play;
