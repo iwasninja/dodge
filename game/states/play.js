@@ -58,7 +58,7 @@
         starPosition = 270;
       }
 
-      this.star = new Star(this.game, this.game.width - 20, starPosition, this);
+      this.star = new Star(this.game, this.game.width + 10, starPosition, this);
       this.game.add.existing(this.star)
 
     }

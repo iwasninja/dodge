@@ -64,8 +64,13 @@ var Star = function(game, x, y, frame) {
   // Give velocity to star objects
   this.body.velocity.x = -150;
 
-  // Set scored attribute for stars
-  this.hasScored = false;
+  // Set avoided attribute for stars
+  this.avoided = false;
+
+  // Check if the star go out of bounds,
+  // and kill it if it does
+  this.checkWorldBounds = true;
+  this.outOfBoundsKill = true;
   
 };
 
@@ -285,7 +290,7 @@ module.exports = Menu;
         starPosition = 270;
       }
 
-      this.star = new Star(this.game, this.game.width - 20, starPosition, this);
+      this.star = new Star(this.game, this.game.width + 10, starPosition, this);
       this.game.add.existing(this.star)
 
     }
