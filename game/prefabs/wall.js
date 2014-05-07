@@ -6,6 +6,15 @@ var Wall = function(game, x, y, width, height) {
   // Enable physics on the wall sprite
   // (for collision detection)
   this.game.physics.arcade.enableBody(this);
+
+  // Add autosrcoll to walls
+  this.autoScroll(-100, 0);
+
+  // Make wall objects unaffected by gravity
+  this.body.allowGravity = false;
+
+  // Make wall objects unaffected by collisions
+  this.body.immovable = true;
   
 };
 

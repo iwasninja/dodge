@@ -15,7 +15,7 @@ window.onload = function () {
 
   game.state.start('boot');
 };
-},{"./states/boot":3,"./states/gameover":4,"./states/menu":5,"./states/play":6,"./states/preload":7}],2:[function(require,module,exports){
+},{"./states/boot":4,"./states/gameover":5,"./states/menu":6,"./states/play":7,"./states/preload":8}],2:[function(require,module,exports){
 'use strict';
 
 var Dude = function(game, x, y, frame) {
@@ -42,6 +42,38 @@ Dude.prototype.update = function() {
 module.exports = Dude;
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+var Wall = function(game, x, y, width, height) {
+  Phaser.TileSprite.call(this, game, x, y, width, height, 'ground');
+
+  // Enable physics on the wall sprite
+  // (for collision detection)
+  this.game.physics.arcade.enableBody(this);
+
+  // Add autosrcoll to walls
+  this.autoScroll(-100, 0);
+
+  // Make wall objects unaffected by gravity
+  this.body.allowGravity = false;
+
+  // Make wall objects unaffected by collisions
+  this.body.immovable = true;
+  
+};
+
+Wall.prototype = Object.create(Phaser.TileSprite.prototype);
+Wall.prototype.constructor = Wall;
+
+Wall.prototype.update = function() {
+  
+  // write your prefab's specific update code here
+  
+};
+
+module.exports = Wall;
+
+},{}],4:[function(require,module,exports){
 
 'use strict';
 
@@ -60,7 +92,7 @@ Boot.prototype = {
 
 module.exports = Boot;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 
 'use strict';
 function GameOver() {}
@@ -88,7 +120,7 @@ GameOver.prototype = {
 };
 module.exports = GameOver;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 
 'use strict';
 function Menu() {}
@@ -153,10 +185,11 @@ Menu.prototype = {
 
 module.exports = Menu;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
   'use strict';
 
   var Dude = require('../prefabs/dude');
+  var Wall = require('../prefabs/wall');
 
   function Play() {}
   Play.prototype = {
@@ -173,16 +206,23 @@ module.exports = Menu;
       this.dude = new Dude(this.game, 30, this.game.height / 2)
       // Add the new dude object to the game
       this.game.add.existing(this.dude)
+
+      // Create and add wall objects to the game
+      this.ground = new Wall(this.game, 0, this.game.height - 30, 480, 112);
+      this.ceiling = new Wall(this.game, 0, 0, 480, 30);
+      this.game.add.existing(this.ground);
+      this.game.add.existing(this.ceiling);
       
     },
     update: function() {
-
+      this.game.physics.arcade.collide(this.dude, this.ground);
+      this.game.physics.arcade.collide(this.dude, this.ceiling);
     },
       
   };
   
   module.exports = Play;
-},{"../prefabs/dude":2}],7:[function(require,module,exports){
+},{"../prefabs/dude":2,"../prefabs/wall":3}],8:[function(require,module,exports){
 'use strict';
 
 function Preload() {
