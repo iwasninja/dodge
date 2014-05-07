@@ -274,6 +274,12 @@ module.exports = Menu;
       // Add timer for stars
       this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.7, this.generateStar, this);
       this.starGenerator.timer.start();
+
+      // Score Keeper
+      this.score = 0;
+
+      // Score text
+      this.scoreText = this.game.add.text(16, 0, '0', { font: '32px Impact', fill: '#fff' });
       
     },
 
@@ -283,7 +289,9 @@ module.exports = Menu;
       this.game.physics.arcade.collide(this.dude, this.ceiling);
 
       // Enable collisions between dude and stars in the stars group
+      // and run checkScore for each of them
       this.stars.forEach(function(star){
+        this.checkScore(star);
         this.game.physics.arcade.collide(this.dude, star, this.deathHandler, null, this);
       }, this);
     },
@@ -308,6 +316,14 @@ module.exports = Menu;
     deathHandler: function() {
       this.game.state.start('gameover');
     },
+
+    checkScore: function(star) {
+      if (star.exists && !star.avoided && star.world.x <= this.dude.world.x) {
+        star.avoided = true;
+        this.score++;
+        this.scoreText.setText(this.score.toString());
+      };
+    }
   };
   
   module.exports = Play;
