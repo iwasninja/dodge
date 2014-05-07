@@ -21,4 +21,10 @@ Dude.prototype.update = function() {
   
 };
 
+Dude.prototype.move = function() {
+	// Reverse gravity so the dude will move
+	// from one wall to other
+	this.game.physics.arcade.gravity.y = -this.game.physics.arcade.gravity.y;
+}
+
 module.exports = Dude;

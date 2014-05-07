@@ -39,6 +39,12 @@ Dude.prototype.update = function() {
   
 };
 
+Dude.prototype.move = function() {
+	// Reverse gravity so the dude will move
+	// from one wall to other
+	this.game.physics.arcade.gravity.y = -this.game.physics.arcade.gravity.y;
+}
+
 module.exports = Dude;
 
 },{}],3:[function(require,module,exports){
@@ -196,7 +202,7 @@ module.exports = Menu;
     create: function() {
       // Use the Arcade physics system
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
-      this.game.physics.arcade.gravity.y = 500;
+      this.game.physics.arcade.gravity.y = -1000;
 
       // Add background sprite (don't have one yet. Just color 
       // loaded on preolad.js)
@@ -212,6 +218,16 @@ module.exports = Menu;
       this.ceiling = new Wall(this.game, 0, 0, 480, 30);
       this.game.add.existing(this.ground);
       this.game.add.existing(this.ceiling);
+
+      // Keep the spacebar from propogating up to the browser
+      this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+
+      // Add keyboard controls
+      var moveKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      moveKey.onDown.add(this.dude.move, this.dude);
+
+      // Add mouse/touch controls
+      this.input.onDown.add(this.dude.move, this.dude);
       
     },
     update: function() {
