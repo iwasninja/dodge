@@ -2,6 +2,7 @@
 
   var Dude = require('../prefabs/dude');
   var Wall = require('../prefabs/wall');
+  var Star = require('../prefabs/star');
 
   function Play() {}
   Play.prototype = {
@@ -34,13 +35,33 @@
 
       // Add mouse/touch controls
       this.input.onDown.add(this.dude.move, this.dude);
+
+      // Add timer for stars
+      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.7, this.generateStar, this);
+      this.starGenerator.timer.start();
       
     },
+
     update: function() {
       this.game.physics.arcade.collide(this.dude, this.ground);
       this.game.physics.arcade.collide(this.dude, this.ceiling);
     },
-      
+
+    generateStar: function() {
+      // Flip coin to choose where the star will appear
+      var coin = this.game.rnd.integerInRange(1,2);
+      var starPosition;
+      console.log("generateStar")
+      if (coin == 1) {
+        starPosition = 45;
+      } else {
+        starPosition = 270;
+      }
+
+      this.star = new Star(this.game, this.game.width - 20, starPosition, this);
+      this.game.add.existing(this.star)
+
+    }
   };
   
   module.exports = Play;

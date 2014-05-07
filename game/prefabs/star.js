@@ -12,7 +12,10 @@ var Star = function(game, x, y, frame) {
   this.body.immovable = true;
 
   // Give velocity to star objects
-  this.body.velocity.x = -100;
+  this.body.velocity.x = -150;
+
+  // Set scored attribute for stars
+  this.hasScored = false;
   
 };
 

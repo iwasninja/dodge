@@ -15,7 +15,7 @@ window.onload = function () {
 
   game.state.start('boot');
 };
-},{"./states/boot":4,"./states/gameover":5,"./states/menu":6,"./states/play":7,"./states/preload":8}],2:[function(require,module,exports){
+},{"./states/boot":5,"./states/gameover":6,"./states/menu":7,"./states/play":8,"./states/preload":9}],2:[function(require,module,exports){
 'use strict';
 
 var Dude = function(game, x, y, frame) {
@@ -50,6 +50,39 @@ module.exports = Dude;
 },{}],3:[function(require,module,exports){
 'use strict';
 
+var Star = function(game, x, y, frame) {
+  Phaser.Sprite.call(this, game, x, y, 'star', frame);
+
+  // Set anchor and enable physics on star objects
+  this.anchor.setTo(0.5, 0.5);
+  this.game.physics.arcade.enableBody(this);
+
+  // Disable gravity and make them immovable
+  this.body.allowGravity = false;
+  this.body.immovable = true;
+
+  // Give velocity to star objects
+  this.body.velocity.x = -150;
+
+  // Set scored attribute for stars
+  this.hasScored = false;
+  
+};
+
+Star.prototype = Object.create(Phaser.Sprite.prototype);
+Star.prototype.constructor = Star;
+
+Star.prototype.update = function() {
+  
+  // write your prefab's specific update code here
+  
+};
+
+module.exports = Star;
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
 var Wall = function(game, x, y, width, height) {
   Phaser.TileSprite.call(this, game, x, y, width, height, 'ground');
 
@@ -79,7 +112,7 @@ Wall.prototype.update = function() {
 
 module.exports = Wall;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 
 'use strict';
 
@@ -98,7 +131,7 @@ Boot.prototype = {
 
 module.exports = Boot;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 
 'use strict';
 function GameOver() {}
@@ -126,7 +159,7 @@ GameOver.prototype = {
 };
 module.exports = GameOver;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 
 'use strict';
 function Menu() {}
@@ -191,11 +224,12 @@ Menu.prototype = {
 
 module.exports = Menu;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
   'use strict';
 
   var Dude = require('../prefabs/dude');
   var Wall = require('../prefabs/wall');
+  var Star = require('../prefabs/star');
 
   function Play() {}
   Play.prototype = {
@@ -228,17 +262,37 @@ module.exports = Menu;
 
       // Add mouse/touch controls
       this.input.onDown.add(this.dude.move, this.dude);
+
+      // Add timer for stars
+      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.7, this.generateStar, this);
+      this.starGenerator.timer.start();
       
     },
+
     update: function() {
       this.game.physics.arcade.collide(this.dude, this.ground);
       this.game.physics.arcade.collide(this.dude, this.ceiling);
     },
-      
+
+    generateStar: function() {
+      // Flip coin to choose where the star will appear
+      var coin = this.game.rnd.integerInRange(1,2);
+      var starPosition;
+      console.log("generateStar")
+      if (coin == 1) {
+        starPosition = 45;
+      } else {
+        starPosition = 270;
+      }
+
+      this.star = new Star(this.game, this.game.width - 20, starPosition, this);
+      this.game.add.existing(this.star)
+
+    }
   };
   
   module.exports = Play;
-},{"../prefabs/dude":2,"../prefabs/wall":3}],8:[function(require,module,exports){
+},{"../prefabs/dude":2,"../prefabs/star":3,"../prefabs/wall":4}],9:[function(require,module,exports){
 'use strict';
 
 function Preload() {
