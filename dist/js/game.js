@@ -99,7 +99,8 @@ Menu.prototype = {
   },
 
   create: function() {
-    // Add background sprite (don't have one yet. Just color)
+    // Add background sprite (don't have one yet. Just color
+    // loaed on preload.js)
     // this.background = this.game.add.sprite(0, 0, 'background');
 
     // Create wall group for ceiling, floor and round
@@ -164,7 +165,8 @@ module.exports = Menu;
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
       this.game.physics.arcade.gravity.y = 500;
 
-      // Add background sprite (don't have one yet. Just color)
+      // Add background sprite (don't have one yet. Just color 
+      // loaded on preolad.js)
       // this.background = this.game.add.sprite(0, 0, 'background');
 
       // Create new dude object
