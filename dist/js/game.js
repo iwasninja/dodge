@@ -80,6 +80,9 @@ Star.prototype.constructor = Star;
 Star.prototype.update = function() {
   
   // write your prefab's specific update code here
+  // Change the sprite's angle each second
+  // (60 times per minute) (rotated star effect)
+  this.angle += -2;
   
 };
 
