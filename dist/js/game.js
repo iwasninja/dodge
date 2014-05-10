@@ -1,7 +1,14 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// Modify this file from templates/_main.js.tpl
+
 'use strict';
 
 //global variables
+// Set score as global variable, so it can
+// be accessed by all game states.
+// Access it as window.score
+var score = 0;
+
 window.onload = function () {
   var game = new Phaser.Game(480, 320, Phaser.AUTO, 'dodgedude');
 
@@ -153,7 +160,7 @@ GameOver.prototype = {
     this.titleText = this.game.add.text(this.game.world.centerX,100, 'Game Over!', style);
     this.titleText.anchor.setTo(0.5, 0.5);
 
-    this.congratsText = this.game.add.text(this.game.world.centerX, 200, 'You Win!', { font: '32px Arial', fill: '#ffffff', align: 'center'});
+    this.congratsText = this.game.add.text(this.game.world.centerX, 200, window.score.toString(), { font: '32px Arial', fill: '#ffffff', align: 'center'});
     this.congratsText.anchor.setTo(0.5, 0.5);
 
     this.instructionText = this.game.add.text(this.game.world.centerX, 300, 'Click To Play Again', { font: '16px Arial', fill: '#ffffff', align: 'center'});
@@ -279,7 +286,7 @@ module.exports = Menu;
       this.starGenerator.timer.start();
 
       // Score Keeper
-      this.score = 0;
+      window.score = 0;
 
       // Score text
       this.scoreText = this.game.add.text(16, 0, '0', { font: '32px Impact', fill: '#fff' });
@@ -323,8 +330,8 @@ module.exports = Menu;
     checkScore: function(star) {
       if (star.exists && !star.avoided && star.world.x <= this.dude.world.x) {
         star.avoided = true;
-        this.score++;
-        this.scoreText.setText(this.score.toString());
+        window.score++;
+        this.scoreText.setText(window.score.toString());
       };
     }
   };

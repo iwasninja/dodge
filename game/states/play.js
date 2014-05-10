@@ -44,7 +44,7 @@
       this.starGenerator.timer.start();
 
       // Score Keeper
-      this.score = 0;
+      window.score = 0;
 
       // Score text
       this.scoreText = this.game.add.text(16, 0, '0', { font: '32px Impact', fill: '#fff' });
@@ -88,8 +88,8 @@
     checkScore: function(star) {
       if (star.exists && !star.avoided && star.world.x <= this.dude.world.x) {
         star.avoided = true;
-        this.score++;
-        this.scoreText.setText(this.score.toString());
+        window.score++;
+        this.scoreText.setText(window.score.toString());
       };
     }
   };
