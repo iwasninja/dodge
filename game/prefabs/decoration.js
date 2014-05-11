@@ -5,6 +5,10 @@ var Decoration = function(game, x, y, asset, frame, velocity) {
 
   // Set decoration object's anchor point
   this.anchor.setTo(0.5, 0.5);
+  // Enable physics on decoration's body
+  this.game.physics.arcade.enableBody(this);
+  // Disable gravity and make them immovable
+  this.body.allowGravity = false;
 
   // Set decoration object's velocity
   this.body.velocity.x = velocity;

@@ -30,6 +30,10 @@ var Decoration = function(game, x, y, asset, frame, velocity) {
 
   // Set decoration object's anchor point
   this.anchor.setTo(0.5, 0.5);
+  // Enable physics on decoration's body
+  this.game.physics.arcade.enableBody(this);
+  // Disable gravity and make them immovable
+  this.body.allowGravity = false;
 
   // Set decoration object's velocity
   this.body.velocity.x = velocity;
@@ -319,31 +323,36 @@ module.exports = Menu;
       this.game.add.existing(this.floor);
       this.game.add.existing(this.pipe);
 
-      // Create new dude object
-      this.dude = new Dude(this.game, 30, this.game.height / 2)
-      // Add the new dude object to the game
-      this.game.add.existing(this.dude);
 
       // Create and add group to hold stars
       this.stars = this.game.add.group();
-
-      // Keep the spacebar from propogating up to the browser
-      this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-
-      // Add keyboard controls
-      var moveKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-      moveKey.onDown.add(this.dude.move, this.dude);
-
-      // Add mouse/touch controls
-      this.input.onDown.add(this.dude.move, this.dude);
-
+      // Create and add group to hold decorations
+      this.decorations = this.game.add.group();
       // Add timer for stars
       this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.7, this.generateStar, this);
       this.starGenerator.timer.start();
+      // Add timer for portholes
+      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 7.2, this.generatePorthole, this);
+      this.portholeGenerator.timer.start();
+
+
+      // Create new dude object
+      this.dude = new Dude(this.game, 30, this.game.height / 2);
+      // Add the new dude object to the game
+      this.game.add.existing(this.dude);
+
+
+      // Keep the spacebar from propogating up to the browser
+      this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+      // Add keyboard controls
+      var moveKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      moveKey.onDown.add(this.dude.move, this.dude);
+      // Add mouse/touch controls
+      this.input.onDown.add(this.dude.move, this.dude);
+
 
       // Score Keeper
       window.score = 0;
-
       // Score text
       this.scoreText = this.game.add.text(16, 0, '0', { font: '32px Impact', fill: '#fff' });
       
@@ -373,9 +382,18 @@ module.exports = Menu;
         starPosition = 269;
       }
 
+      // Generate and add star
       this.star = new Star(this.game, this.game.width + 10, starPosition, this);
       this.stars.add(this.star);
       // this.game.add.existing(this.star)
+
+    },
+
+    generatePorthole: function() {
+      // Generate porthole
+      this.porthole = new Decoration(this.game, this.game.width + 30, 130, 'porthole', this, -100);
+      // Add generated porthole to decorations group
+      this.decorations.add(this.porthole);
 
     },
 
@@ -418,7 +436,7 @@ Preload.prototype = {
     this.load.image('ground', 'assets/floor.png');
     this.load.image('star', 'assets/shur.png');
     this.load.image('bricks', 'assets/bricks.jpg');
-    this.load.image('porthole', 'assets/porthole/png');
+    this.load.image('porthole', 'assets/porthole.png');
 
     this.load.image('startButton', 'assets/start-button.png');
 
@@ -428,7 +446,7 @@ Preload.prototype = {
   },
   update: function() {
     if(!!this.ready) {
-      this.game.state.start('play');
+      this.game.state.start('menu');
     }
   },
   onLoadComplete: function() {
