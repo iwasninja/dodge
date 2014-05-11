@@ -22,7 +22,37 @@ window.onload = function () {
 
   game.state.start('boot');
 };
-},{"./states/boot":5,"./states/gameover":6,"./states/menu":7,"./states/play":8,"./states/preload":9}],2:[function(require,module,exports){
+},{"./states/boot":6,"./states/gameover":7,"./states/menu":8,"./states/play":9,"./states/preload":10}],2:[function(require,module,exports){
+'use strict';
+
+var Decoration = function(game, x, y, asset, frame, velocity) {
+  Phaser.Sprite.call(this, game, x, y, asset, frame);
+
+  // Set decoration object's anchor point
+  this.anchor.setTo(0.5, 0.5);
+
+  // Set decoration object's velocity
+  this.body.velocity.x = velocity;
+
+  // Check if the decoration object go
+  // out of bounds, and kill it if it does
+  this.checkWorldBounds = true;
+  this.outOfBoundsKill = true;
+  
+};
+
+Decoration.prototype = Object.create(Phaser.Sprite.prototype);
+Decoration.prototype.constructor = Decoration;
+
+Decoration.prototype.update = function() {
+  
+  // write your prefab's specific update code here
+  
+};
+
+module.exports = Decoration;
+
+},{}],3:[function(require,module,exports){
 'use strict';
 
 var Dude = function(game, x, y, frame) {
@@ -54,7 +84,7 @@ Dude.prototype.move = function() {
 
 module.exports = Dude;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 var Star = function(game, x, y, frame) {
@@ -95,11 +125,11 @@ Star.prototype.update = function() {
 
 module.exports = Star;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
-var Wall = function(game, x, y, width, height, source) {
-  Phaser.TileSprite.call(this, game, x, y, width, height, source);
+var Wall = function(game, x, y, width, height, asset) {
+  Phaser.TileSprite.call(this, game, x, y, width, height, asset);
 
   // Enable physics on the wall sprite
   // (for collision detection)
@@ -127,7 +157,7 @@ Wall.prototype.update = function() {
 
 module.exports = Wall;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 
 'use strict';
 
@@ -146,7 +176,7 @@ Boot.prototype = {
 
 module.exports = Boot;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 
 'use strict';
 function GameOver() {}
@@ -197,7 +227,7 @@ GameOver.prototype = {
 };
 module.exports = GameOver;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 
 'use strict';
 function Menu() {}
@@ -260,12 +290,13 @@ Menu.prototype = {
 
 module.exports = Menu;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
   'use strict';
 
   var Dude = require('../prefabs/dude');
   var Wall = require('../prefabs/wall');
   var Star = require('../prefabs/star');
+  var Decoration = require('../prefabs/decoration');
 
   function Play() {}
   Play.prototype = {
@@ -362,7 +393,7 @@ module.exports = Menu;
   };
   
   module.exports = Play;
-},{"../prefabs/dude":2,"../prefabs/star":3,"../prefabs/wall":4}],9:[function(require,module,exports){
+},{"../prefabs/decoration":2,"../prefabs/dude":3,"../prefabs/star":4,"../prefabs/wall":5}],10:[function(require,module,exports){
 'use strict';
 
 function Preload() {
@@ -386,7 +417,8 @@ Preload.prototype = {
     this.load.image('floor', 'assets/floor.png');
     this.load.image('ground', 'assets/floor.png');
     this.load.image('star', 'assets/shur.png');
-    this.load.image('bricks', 'assets/bricks.jpg')
+    this.load.image('bricks', 'assets/bricks.jpg');
+    this.load.image('porthole', 'assets/porthole/png');
 
     this.load.image('startButton', 'assets/start-button.png');
 

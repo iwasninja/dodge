@@ -3,6 +3,7 @@
   var Dude = require('../prefabs/dude');
   var Wall = require('../prefabs/wall');
   var Star = require('../prefabs/star');
+  var Decoration = require('../prefabs/decoration');
 
   function Play() {}
   Play.prototype = {
