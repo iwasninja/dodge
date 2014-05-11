@@ -11,14 +11,17 @@
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
       this.game.physics.arcade.gravity.y = -1000;
 
-      // Add background sprite (don't have one yet. Just color 
-      // loaded on preolad.js)
+      // Add background sprite (as wall object)
       this.background = new Wall(this.game, 0, 0, 480, 320, 'bricks');
       this.game.add.existing(this.background);
 
-      // Create and add wall objects to the game
+      // Create wall objects floor and pipe
       this.floor = new Wall(this.game, 0, this.game.height - 50, 480, 112, 'floor');
       this.pipe = new Wall(this.game, 0, 0, 480, 52, 'pipe');
+      // Set body size of the wall objects floor and pipe
+      this.floor.body.setSize(480, 31, 0, 19);
+      this.pipe.body.setSize(480, 45, 0, 0);
+      // Add the wall objects floor and pipe to the game
       this.game.add.existing(this.floor);
       this.game.add.existing(this.pipe);
 
