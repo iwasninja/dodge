@@ -210,23 +210,22 @@ Menu.prototype = {
   create: function() {
     // Add background sprite (don't have one yet. Just color
     // loaed on preload.js)
-    // this.background = this.game.add.sprite(0, 0, 'background');
+    this.background = this.game.add.tileSprite(0, 0, 480, 320, 'bricks');
 
-    // Create wall group for ceiling, floor and round
+    // Create wall group for pipe, floor and round
     this.wallGroup = this.game.add.group();
 
-    // Add ground and ceiling tileSprites
-    this.ceiling = this.game.add.tileSprite(0, 0, 480, 30, 'ground');
-    this.wallGroup.add(this.ceiling);
-    this.floor = this.game.add.tileSprite(0, this.game.height - 40, 480, 112, 'floor');
+    // Add ground and pipe tileSprites
+    this.pipe = this.game.add.tileSprite(0, 0, 480, 52, 'pipe');
+    this.wallGroup.add(this.pipe);
+    this.floor = this.game.add.tileSprite(0, this.game.height - 50, 480, 112, 'floor');
     this.wallGroup.add(this.floor);
-    this.ground = this.game.add.tileSprite(0, this.game.height - 30, 480, 112, 'ground');
-    this.wallGroup.add(this.ground);
+
 
     // Scroll the walls
-    this.ceiling.autoScroll(-100,0);
+    this.pipe.autoScroll(-100,0);
     this.floor.autoScroll(-100, 0);
-    this.ground.autoScroll(-100,0);
+    this.background.autoScroll(-100,0);
 
     // Create title group to manipulate
     // title assets as one
@@ -289,10 +288,10 @@ module.exports = Menu;
       this.stars = this.game.add.group();
 
       // Create and add wall objects to the game
-      this.ground = new Wall(this.game, 0, this.game.height - 30, 480, 112);
-      this.ceiling = new Wall(this.game, 0, 0, 480, 30);
-      this.game.add.existing(this.ground);
-      this.game.add.existing(this.ceiling);
+      this.ground = new Wall(this.game, 0, this.game.height - 50, 480, 112);
+      this.pipe = new Wall(this.game, 0, 0, 480, 52);
+      this.game.add.existing(this.floor);
+      this.game.add.existing(this.pipe);
 
       // Keep the spacebar from propogating up to the browser
       this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -375,20 +374,16 @@ Preload.prototype = {
     this.asset.anchor.setTo(0.5, 0.5);
     this.load.setPreloadSprite(this.asset);
 
-    // Demo asset
-    this.load.image('yeoman', 'assets/yeoman-logo.png');
-
     // Background color
     this.stage.backgroundColor = '#87ceeb';
 
     // Preload assets
-    this.load.spritesheet('dudeFront', 'assets/square.png', 20, 20);
     this.load.spritesheet('dude', 'assets/square2.png', 40, 40);
-    this.load.image('ceiling', 'assets/ceil.png');
+    this.load.image('pipe', 'assets/pipe.png');
     this.load.image('floor', 'assets/floor.png');
-    this.load.image('ground', 'assets/ground.png');
+    this.load.image('ground', 'assets/floor.png');
     this.load.image('star', 'assets/shur.png');
-    this.load.image('leftbo', 'assets/leftbor.png');
+    this.load.image('bricks', 'assets/bricks.jpg')
 
     this.load.image('startButton', 'assets/start-button.png');
 

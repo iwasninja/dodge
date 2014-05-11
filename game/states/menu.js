@@ -10,23 +10,22 @@ Menu.prototype = {
   create: function() {
     // Add background sprite (don't have one yet. Just color
     // loaed on preload.js)
-    // this.background = this.game.add.sprite(0, 0, 'background');
+    this.background = this.game.add.tileSprite(0, 0, 480, 320, 'bricks');
 
-    // Create wall group for ceiling, floor and round
+    // Create wall group for pipe, floor and round
     this.wallGroup = this.game.add.group();
 
-    // Add ground and ceiling tileSprites
-    this.ceiling = this.game.add.tileSprite(0, 0, 480, 30, 'ground');
-    this.wallGroup.add(this.ceiling);
-    this.floor = this.game.add.tileSprite(0, this.game.height - 40, 480, 112, 'floor');
+    // Add ground and pipe tileSprites
+    this.pipe = this.game.add.tileSprite(0, 0, 480, 52, 'pipe');
+    this.wallGroup.add(this.pipe);
+    this.floor = this.game.add.tileSprite(0, this.game.height - 50, 480, 112, 'floor');
     this.wallGroup.add(this.floor);
-    this.ground = this.game.add.tileSprite(0, this.game.height - 30, 480, 112, 'ground');
-    this.wallGroup.add(this.ground);
+
 
     // Scroll the walls
-    this.ceiling.autoScroll(-100,0);
+    this.pipe.autoScroll(-100,0);
     this.floor.autoScroll(-100, 0);
-    this.ground.autoScroll(-100,0);
+    this.background.autoScroll(-100,0);
 
     // Create title group to manipulate
     // title assets as one

@@ -24,10 +24,10 @@
       this.stars = this.game.add.group();
 
       // Create and add wall objects to the game
-      this.ground = new Wall(this.game, 0, this.game.height - 30, 480, 112);
-      this.ceiling = new Wall(this.game, 0, 0, 480, 30);
-      this.game.add.existing(this.ground);
-      this.game.add.existing(this.ceiling);
+      this.ground = new Wall(this.game, 0, this.game.height - 50, 480, 112);
+      this.pipe = new Wall(this.game, 0, 0, 480, 52);
+      this.game.add.existing(this.floor);
+      this.game.add.existing(this.pipe);
 
       // Keep the spacebar from propogating up to the browser
       this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
