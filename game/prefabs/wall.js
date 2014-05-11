@@ -1,7 +1,7 @@
 'use strict';
 
-var Wall = function(game, x, y, width, height) {
-  Phaser.TileSprite.call(this, game, x, y, width, height, 'ground');
+var Wall = function(game, x, y, width, height, source) {
+  Phaser.TileSprite.call(this, game, x, y, width, height, source);
 
   // Enable physics on the wall sprite
   // (for collision detection)

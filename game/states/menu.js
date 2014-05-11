@@ -8,11 +8,10 @@ Menu.prototype = {
   },
 
   create: function() {
-    // Add background sprite (don't have one yet. Just color
-    // loaed on preload.js)
+    // Add background sprite
     this.background = this.game.add.tileSprite(0, 0, 480, 320, 'bricks');
 
-    // Create wall group for pipe, floor and round
+    // Create wall group for pipe and floor
     this.wallGroup = this.game.add.group();
 
     // Add ground and pipe tileSprites

@@ -98,8 +98,8 @@ module.exports = Star;
 },{}],4:[function(require,module,exports){
 'use strict';
 
-var Wall = function(game, x, y, width, height) {
-  Phaser.TileSprite.call(this, game, x, y, width, height, 'ground');
+var Wall = function(game, x, y, width, height, source) {
+  Phaser.TileSprite.call(this, game, x, y, width, height, source);
 
   // Enable physics on the wall sprite
   // (for collision detection)
@@ -208,11 +208,10 @@ Menu.prototype = {
   },
 
   create: function() {
-    // Add background sprite (don't have one yet. Just color
-    // loaed on preload.js)
+    // Add background sprite
     this.background = this.game.add.tileSprite(0, 0, 480, 320, 'bricks');
 
-    // Create wall group for pipe, floor and round
+    // Create wall group for pipe and floor
     this.wallGroup = this.game.add.group();
 
     // Add ground and pipe tileSprites
@@ -277,7 +276,14 @@ module.exports = Menu;
 
       // Add background sprite (don't have one yet. Just color 
       // loaded on preolad.js)
-      // this.background = this.game.add.sprite(0, 0, 'background');
+      this.background = new Wall(this.game, 0, 0, 480, 320, 'bricks');
+      this.game.add.existing(this.background);
+
+      // Create and add wall objects to the game
+      this.floor = new Wall(this.game, 0, this.game.height - 50, 480, 112, 'floor');
+      this.pipe = new Wall(this.game, 0, 0, 480, 52, 'pipe');
+      this.game.add.existing(this.floor);
+      this.game.add.existing(this.pipe);
 
       // Create new dude object
       this.dude = new Dude(this.game, 30, this.game.height / 2)
@@ -286,12 +292,6 @@ module.exports = Menu;
 
       // Create and add group to hold stars
       this.stars = this.game.add.group();
-
-      // Create and add wall objects to the game
-      this.ground = new Wall(this.game, 0, this.game.height - 50, 480, 112);
-      this.pipe = new Wall(this.game, 0, 0, 480, 52);
-      this.game.add.existing(this.floor);
-      this.game.add.existing(this.pipe);
 
       // Keep the spacebar from propogating up to the browser
       this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -317,8 +317,8 @@ module.exports = Menu;
 
     update: function() {
       // Enable collisions between dude and walls
-      this.game.physics.arcade.collide(this.dude, this.ground);
-      this.game.physics.arcade.collide(this.dude, this.ceiling);
+      this.game.physics.arcade.collide(this.dude, this.floor);
+      this.game.physics.arcade.collide(this.dude, this.pipe);
 
       // Enable collisions between dude and stars in the stars group
       // and run checkScore for each of them
@@ -334,9 +334,9 @@ module.exports = Menu;
       var starPosition;
       console.log("generateStar")
       if (coin == 1) {
-        starPosition = 45;
+        starPosition = 62;
       } else {
-        starPosition = 270;
+        starPosition = 269;
       }
 
       this.star = new Star(this.game, this.game.width + 10, starPosition, this);
