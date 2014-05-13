@@ -272,10 +272,10 @@ Menu.prototype = {
 
     // Set location of the group
     this.titleGroup.x = 30;
-    this.titleGroup.y = 100;
+    this.titleGroup.y = 240;
 
     // Animation tween to the titleGroup
-    this.game.add.tween(this.titleGroup).to({y:140}, 350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
+    this.game.add.tween(this.titleGroup).to({y:250}, 1350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
     // Add start button with a callabck
     this.startButton = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
@@ -331,17 +331,15 @@ module.exports = Menu;
       // Create and add group to hold decorations
       this.decorations = this.game.add.group();
       // Add timer for stars
-      var starRnd = this.game.rnd.integerInRange(7,12);
-      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (starRnd/10), this.generateStar, this);
+      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 0.7, this.generateStar, this);
       this.starGenerator.timer.start();
       // Add timer for portholes
-      var portholeRnd = this.game.rnd.integerInRange(80,150);
-      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (portholeRnd/10), this.generatePorthole, this);
+      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 9.5, this.generatePorthole, this);
       this.portholeGenerator.timer.start();
 
 
       // Create new dude object
-      this.dude = new Dude(this.game, 30, this.game.height / 2);
+      this.dude = new Dude(this.game, 30, this.game.height - 60);
       // Add the new dude object to the game
       this.game.add.existing(this.dude);
 

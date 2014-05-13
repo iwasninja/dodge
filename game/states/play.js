@@ -32,17 +32,15 @@
       // Create and add group to hold decorations
       this.decorations = this.game.add.group();
       // Add timer for stars
-      var starRnd = this.game.rnd.integerInRange(7,12);
-      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (starRnd/10), this.generateStar, this);
+      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 0.7, this.generateStar, this);
       this.starGenerator.timer.start();
       // Add timer for portholes
-      var portholeRnd = this.game.rnd.integerInRange(80,150);
-      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (portholeRnd/10), this.generatePorthole, this);
+      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 9.5, this.generatePorthole, this);
       this.portholeGenerator.timer.start();
 
 
       // Create new dude object
-      this.dude = new Dude(this.game, 30, this.game.height / 2);
+      this.dude = new Dude(this.game, 30, this.game.height - 60);
       // Add the new dude object to the game
       this.game.add.existing(this.dude);
 

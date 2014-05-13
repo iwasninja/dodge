@@ -36,10 +36,10 @@ Menu.prototype = {
 
     // Set location of the group
     this.titleGroup.x = 30;
-    this.titleGroup.y = 100;
+    this.titleGroup.y = 240;
 
     // Animation tween to the titleGroup
-    this.game.add.tween(this.titleGroup).to({y:140}, 350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
+    this.game.add.tween(this.titleGroup).to({y:250}, 1350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
     // Add start button with a callabck
     this.startButton = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
