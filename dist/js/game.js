@@ -68,6 +68,7 @@ var Dude = function(game, x, y, frame) {
 
 	// Add physics body to sprite
 	this.game.physics.arcade.enableBody(this);
+	this.body.setSize(10, 40, 0, 0);
   
 };
 
@@ -83,7 +84,8 @@ Dude.prototype.update = function() {
 Dude.prototype.move = function() {
 	// Reverse gravity so the dude will move
 	// from one wall to other
-	this.game.physics.arcade.gravity.y = -this.game.physics.arcade.gravity.y;
+	if (this.body.touching.up || this.body.touching.down)
+		this.game.physics.arcade.gravity.y *= -1;
 }
 
 module.exports = Dude;
@@ -103,7 +105,7 @@ var Star = function(game, x, y, frame) {
   this.body.immovable = true;
 
   // Give velocity to star objects
-  this.body.velocity.x = -150;
+  this.body.velocity.x = -350;
 
   // Set avoided attribute for stars
   this.avoided = false;
@@ -123,7 +125,7 @@ Star.prototype.update = function() {
   // write your prefab's specific update code here
   // Change the sprite's angle each second
   // (60 times per minute) (rotated star effect)
-  this.angle += -2;
+  this.angle += -8;
   
 };
 
@@ -140,7 +142,7 @@ var Wall = function(game, x, y, width, height, asset) {
   this.game.physics.arcade.enableBody(this);
 
   // Add autosrcoll to walls
-  this.autoScroll(-100, 0);
+  this.autoScroll(-250, 0);
 
   // Make wall objects unaffected by gravity
   this.body.allowGravity = false;
@@ -307,7 +309,7 @@ module.exports = Menu;
     create: function() {
       // Use the Arcade physics system
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
-      this.game.physics.arcade.gravity.y = -1000;
+      this.game.physics.arcade.gravity.y = 1000;
 
       // Add background sprite (as wall object)
       this.background = new Wall(this.game, 0, 0, 480, 320, 'bricks');
@@ -329,10 +331,12 @@ module.exports = Menu;
       // Create and add group to hold decorations
       this.decorations = this.game.add.group();
       // Add timer for stars
-      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.7, this.generateStar, this);
+      var starRnd = this.game.rnd.integerInRange(7,12);
+      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (starRnd/10), this.generateStar, this);
       this.starGenerator.timer.start();
       // Add timer for portholes
-      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 7.2, this.generatePorthole, this);
+      var portholeRnd = this.game.rnd.integerInRange(80,150);
+      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (portholeRnd/10), this.generatePorthole, this);
       this.portholeGenerator.timer.start();
 
 
@@ -391,7 +395,7 @@ module.exports = Menu;
 
     generatePorthole: function() {
       // Generate porthole
-      this.porthole = new Decoration(this.game, this.game.width + 30, 130, 'porthole', this, -100);
+      this.porthole = new Decoration(this.game, this.game.width + 30, 158, 'porthole', this, -250);
       // Add generated porthole to decorations group
       this.decorations.add(this.porthole);
 

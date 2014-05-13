@@ -12,7 +12,7 @@ var Star = function(game, x, y, frame) {
   this.body.immovable = true;
 
   // Give velocity to star objects
-  this.body.velocity.x = -150;
+  this.body.velocity.x = -350;
 
   // Set avoided attribute for stars
   this.avoided = false;
@@ -32,7 +32,7 @@ Star.prototype.update = function() {
   // write your prefab's specific update code here
   // Change the sprite's angle each second
   // (60 times per minute) (rotated star effect)
-  this.angle += -2;
+  this.angle += -8;
   
 };
 

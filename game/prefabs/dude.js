@@ -9,6 +9,7 @@ var Dude = function(game, x, y, frame) {
 
 	// Add physics body to sprite
 	this.game.physics.arcade.enableBody(this);
+	this.body.setSize(10, 40, 0, 0);
   
 };
 
@@ -24,7 +25,8 @@ Dude.prototype.update = function() {
 Dude.prototype.move = function() {
 	// Reverse gravity so the dude will move
 	// from one wall to other
-	this.game.physics.arcade.gravity.y = -this.game.physics.arcade.gravity.y;
+	if (this.body.touching.up || this.body.touching.down)
+		this.game.physics.arcade.gravity.y *= -1;
 }
 
 module.exports = Dude;

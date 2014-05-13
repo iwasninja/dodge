@@ -10,7 +10,7 @@
     create: function() {
       // Use the Arcade physics system
       this.game.physics.startSystem(Phaser.Physics.ARCADE);
-      this.game.physics.arcade.gravity.y = -1000;
+      this.game.physics.arcade.gravity.y = 1000;
 
       // Add background sprite (as wall object)
       this.background = new Wall(this.game, 0, 0, 480, 320, 'bricks');
@@ -32,10 +32,12 @@
       // Create and add group to hold decorations
       this.decorations = this.game.add.group();
       // Add timer for stars
-      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 1.7, this.generateStar, this);
+      var starRnd = this.game.rnd.integerInRange(7,12);
+      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (starRnd/10), this.generateStar, this);
       this.starGenerator.timer.start();
       // Add timer for portholes
-      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 7.2, this.generatePorthole, this);
+      var portholeRnd = this.game.rnd.integerInRange(80,150);
+      this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * (portholeRnd/10), this.generatePorthole, this);
       this.portholeGenerator.timer.start();
 
 
@@ -94,7 +96,7 @@
 
     generatePorthole: function() {
       // Generate porthole
-      this.porthole = new Decoration(this.game, this.game.width + 30, 130, 'porthole', this, -100);
+      this.porthole = new Decoration(this.game, this.game.width + 30, 158, 'porthole', this, -250);
       // Add generated porthole to decorations group
       this.decorations.add(this.porthole);
 

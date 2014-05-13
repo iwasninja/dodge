@@ -8,7 +8,7 @@ var Wall = function(game, x, y, width, height, asset) {
   this.game.physics.arcade.enableBody(this);
 
   // Add autosrcoll to walls
-  this.autoScroll(-100, 0);
+  this.autoScroll(-250, 0);
 
   // Make wall objects unaffected by gravity
   this.body.allowGravity = false;
