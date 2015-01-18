@@ -125,7 +125,7 @@ Star.prototype.update = function() {
   // write your prefab's specific update code here
   // Change the sprite's angle each second
   // (60 times per minute) (rotated star effect)
-  this.angle += -8;
+  this.angle += 10;
   
 };
 
@@ -278,8 +278,10 @@ Menu.prototype = {
     this.game.add.tween(this.titleGroup).to({y:250}, 1350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
     // Add start button with a callabck
-    this.startButton = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
+    this.startButton = this.game.add.button(this.game.width/2, 177, 'startButton', this.startClick, this);
     this.startButton.anchor.setTo(0.5, 0.5);
+
+    this.bSpacebarsButton = this.game.add.button(this.game.width - 154, this.game.height - 117, 'bSpacebarsButton', this.bSpacebarsClick, this);
 
   },
 
@@ -287,6 +289,10 @@ Menu.prototype = {
     // Start button click handler
     // Start the 'play' state
     this.game.state.start('play');
+  },
+
+  bSpacebarsClick: function() {
+    window.open("http://www.brokenspacebars.com", "_blank");
   },
 
   update: function() {
@@ -303,6 +309,7 @@ module.exports = Menu;
   var Wall = require('../prefabs/wall');
   var Star = require('../prefabs/star');
   var Decoration = require('../prefabs/decoration');
+  var starStarTimer;
 
   function Play() {}
   Play.prototype = {
@@ -331,7 +338,8 @@ module.exports = Menu;
       // Create and add group to hold decorations
       this.decorations = this.game.add.group();
       // Add timer for stars
-      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 0.7, this.generateStar, this);
+      starStarTimer = 0;
+      this.starGenerator = this.game.time.events.loop(starStarTimer, this.generateStar, this);
       this.starGenerator.timer.start();
       // Add timer for portholes
       this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 9.5, this.generatePorthole, this);
@@ -361,6 +369,7 @@ module.exports = Menu;
     },
 
     update: function() {
+      this.updateStarTimer();
       // Enable collisions between dude and walls
       this.game.physics.arcade.collide(this.dude, this.floor);
       this.game.physics.arcade.collide(this.dude, this.pipe);
@@ -371,6 +380,22 @@ module.exports = Menu;
         this.checkScore(star);
         this.game.physics.arcade.collide(this.dude, star, this.deathHandler, null, this);
       }, this);
+    },
+
+    updateStarTimer: function() {
+      if (window.score < 5) {
+        this.starGenerator.delay = 700;
+      } else if (window.score < 10) {
+        this.starGenerator.delay = 600;
+      } else if (window.score < 15) {
+        this.starGenerator.delay = 500;
+      } else if (window.score < 20) {
+        this.starGenerator.delay = 400;
+      } else if (window.score < 25) {
+        this.starGenerator.delay = 300;
+      } else if (window.score < 30) {
+        this.starGenerator.delay = 200;
+      }
     },
 
     generateStar: function() {
@@ -435,11 +460,12 @@ Preload.prototype = {
     this.load.spritesheet('dude', 'assets/square2.png', 40, 40);
     this.load.image('pipe', 'assets/pipe.png');
     this.load.image('floor', 'assets/floor.png');
-    this.load.image('star', 'assets/shur.png');
+    this.load.image('star', 'assets/shur2.png');
     this.load.image('bricks', 'assets/bricks.jpg');
     this.load.image('porthole', 'assets/porthole.png');
 
     this.load.image('startButton', 'assets/start-button.png');
+    this.load.image('bSpacebarsButton', 'assets/bspacebar.png');
 
   },
   create: function() {

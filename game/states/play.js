@@ -4,6 +4,7 @@
   var Wall = require('../prefabs/wall');
   var Star = require('../prefabs/star');
   var Decoration = require('../prefabs/decoration');
+  var starStarTimer;
 
   function Play() {}
   Play.prototype = {
@@ -32,7 +33,8 @@
       // Create and add group to hold decorations
       this.decorations = this.game.add.group();
       // Add timer for stars
-      this.starGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 0.7, this.generateStar, this);
+      starStarTimer = 0;
+      this.starGenerator = this.game.time.events.loop(starStarTimer, this.generateStar, this);
       this.starGenerator.timer.start();
       // Add timer for portholes
       this.portholeGenerator = this.game.time.events.loop(Phaser.Timer.SECOND * 9.5, this.generatePorthole, this);
@@ -62,6 +64,7 @@
     },
 
     update: function() {
+      this.updateStarTimer();
       // Enable collisions between dude and walls
       this.game.physics.arcade.collide(this.dude, this.floor);
       this.game.physics.arcade.collide(this.dude, this.pipe);
@@ -72,6 +75,22 @@
         this.checkScore(star);
         this.game.physics.arcade.collide(this.dude, star, this.deathHandler, null, this);
       }, this);
+    },
+
+    updateStarTimer: function() {
+      if (window.score < 5) {
+        this.starGenerator.delay = 700;
+      } else if (window.score < 10) {
+        this.starGenerator.delay = 600;
+      } else if (window.score < 15) {
+        this.starGenerator.delay = 500;
+      } else if (window.score < 20) {
+        this.starGenerator.delay = 400;
+      } else if (window.score < 25) {
+        this.starGenerator.delay = 300;
+      } else if (window.score < 30) {
+        this.starGenerator.delay = 200;
+      }
     },
 
     generateStar: function() {

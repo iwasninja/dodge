@@ -42,8 +42,10 @@ Menu.prototype = {
     this.game.add.tween(this.titleGroup).to({y:250}, 1350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
     // Add start button with a callabck
-    this.startButton = this.game.add.button(this.game.width/2, this.game.height/2, 'startButton', this.startClick, this);
+    this.startButton = this.game.add.button(this.game.width/2, 177, 'startButton', this.startClick, this);
     this.startButton.anchor.setTo(0.5, 0.5);
+
+    this.bSpacebarsButton = this.game.add.button(this.game.width - 154, this.game.height - 117, 'bSpacebarsButton', this.bSpacebarsClick, this);
 
   },
 
@@ -51,6 +53,10 @@ Menu.prototype = {
     // Start button click handler
     // Start the 'play' state
     this.game.state.start('play');
+  },
+
+  bSpacebarsClick: function() {
+    window.open("http://www.brokenspacebars.com", "_blank");
   },
 
   update: function() {
